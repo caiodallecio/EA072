@@ -10,7 +10,6 @@
 #include <sys/types.h>
 #include "header.h"
 #include "server.h"
-
 %}
 
 
@@ -20,7 +19,6 @@
 	struct commands * comando;
 	struct request request;
 	struct http_request * http_request_list
-	
 }
 
 %token VIRGULA
@@ -35,72 +33,66 @@
 %type<parametro> parametro
 %%
 
-http_list : http http_list			{
-											if ($1 == NULL){
-												$$ = $2;
-												list = $2;
-											}
-											else if ($2 == NULL){
-												$$ = $1;
-												list = $1;
-											}
-											else{
-												http_request_t * ret;
-												ret = $1;
-												ret->next = $2;
-												$$ = ret;
-												list = ret;
-											}
-											}
-	  | http								{
-		  									$$ = $1;
-	  										list = $1;
-											}
+http_list : http http_list	{
+								if ($1 == NULL){
+								$$ = $2;
+								list = $2;
+								} else if ($2 == NULL) {
+									$$ = $1;
+									list = $1;
+								} else {
+									http_request_t * ret;
+									ret = $1;
+									ret->next = $2;
+									$$ = ret;
+									list = ret;
+								}
+							}
+	  | http	{
+		  			$$ = $1;
+	  				list = $1;
+				}
 	
 
-http: REQUEST PALAVRA PALAVRA header_list	LINEFEED	{
-																	http_request_t * ret = malloc(sizeof(http_request_t));
-																	ret->request = $1;
-																	ret->resource = $2;
-																	ret->header = $4;														
-																	}
+http: REQUEST PALAVRA PALAVRA header_list LINEFEED	{
+														http_request_t * ret = malloc(sizeof(http_request_t));
+														ret->request = $1;
+														ret->resource = $2;
+														ret->header = $4;														
+													}
+header_list: header header_list	{
+									commands_t * ret;
+									ret = $1;
+									ret->next = $2;
+									$$ = ret;
+								}
+		   | header	{$$ = $1;}
 
-header_list: header header_list		{
+
+
+
+
+header: PALAVRA DOISPTS parametro LINEFEED	{
 												commands_t * ret;
-												ret = $1;
-												ret->next = $2;
+												ret = malloc(sizeof(commands_t));
+												ret->comand = malloc(sizeof(char)*256);
+												strcpy(ret->comand,$1);
+												ret->param = $3;
+												ret->next = NULL;
 												$$ = ret;
-												}
-			  
-			  | header						{
-			  									$$ = $1;
-			  									}
-
-
-
-
-
-header: PALAVRA DOISPTS parametro LINEFEED						{
-											commands_t * ret;
-											ret = malloc(sizeof(commands_t));
-											ret->comand = malloc(sizeof(char)*256);
-											strcpy(ret->comand,$1);
-											ret->param = $3;
-											ret->next = NULL;
-											$$ = ret;
 											}
-	   | PALAVRA DOISPTS				{
-											commands_t * ret;
-											ret = malloc(sizeof(commands_t));
-											ret->comand = malloc(sizeof(char)*256);
-											strcpy(ret->comand,$1);
-											ret->param = NULL;
-											ret->next = NULL;
-											$$ = ret;
-	   									} 
-	   | DOISPTS parametro LINEFEED					{printf("Falta comando\n"); $$ = NULL;}
+	   | PALAVRA DOISPTS					{
+												commands_t * ret;
+												ret = malloc(sizeof(commands_t));
+												ret->comand = malloc(sizeof(char)*256);
+												strcpy(ret->comand,$1);
+												ret->param = NULL;
+												ret->next = NULL;
+												$$ = ret;
+	   										} 
+	   | DOISPTS parametro LINEFEED			{printf("Falta comando\n"); $$ = NULL;}
 
-	   | DOISPTS LINEFEED 								{printf("Falta Comando\n"); $$ = NULL;}
+	   | DOISPTS LINEFEED 					{printf("Falta Comando\n"); $$ = NULL;}
 	   
 
 parametro: PALAVRA VIRGULA parametro 		{
@@ -111,7 +103,7 @@ parametro: PALAVRA VIRGULA parametro 		{
 											ret->next = $3;
 											$$ = ret;
 											}	
-	| PALAVRA									{	
+	     | PALAVRA							{	
 				 							params_t * ret;
 											ret = malloc(sizeof(params_t));
 											ret->param = malloc(sizeof(char)*256);
@@ -123,7 +115,7 @@ parametro: PALAVRA VIRGULA parametro 		{
 
 %%
 
-void print_param(params_t * p){
+void print_param(params_t * p) {
 	if (p == NULL)
 		return;
 	else {
@@ -133,7 +125,7 @@ void print_param(params_t * p){
 	
 }
 
-void print_command(commands_t * p){
+void print_command(commands_t * p) {
 	if (p == NULL)
 		return;
 	else{
@@ -143,7 +135,7 @@ void print_command(commands_t * p){
 	}
 }
 
-void main(){
+void main() {
 		yyparse();
 } 
 
