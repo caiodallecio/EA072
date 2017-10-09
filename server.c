@@ -253,43 +253,34 @@ char * get_resource_time(resource_t * p) {
 	return ret;
 }
 
-	else if (!strcmp(request,"HEAD")){
-		resource = get_resource(path, resource_name, &code, &size, &t);
-		free(resource);
-		resource = NULL;
+char * errorProc(int errorN) {
+	char* error[300];
+
+	switch(errorN){
+		case 400://Bad Request
+			strcpy(error,"<html>\n<head>\n<title>Error 400 Bad Request</title>\n</head>\n</html>\n");
+			break;
+		case 403://Forbidden
+			strcpy(error,"<html>\n<head>\n<title>Error 403 Forbidden</title>\n</head>\n</html>\n");
+			break;
+		case 404://Not Found
+			strcpy(error,"<html>\n<head>\n<title>Error 404 Not Found</title>\n</head>\n</html>\n");
+			break;
+		case 405:// Method Not Allowed
+			strcpy(error,"<html>\n<head>\n<title>Error 405 Method Not Allowed</title>\n</head>\n</html>\n");
+			break;
+		case 500:// Internal Server Error
+			strcpy(error,"<html>\n<head>\n<title>Error 500 Internal Server Error</title>\n</head>\n</html>\n");
+	    	break;
+		case 501:// Not Implemented
+			strcpy(error,"<html>\n<head>\n<title>Error 501 Not Implemented</title>\n</head>\n</html>\n");
+			break;
+		default:
+			strcpy(error,"<html>\n<head>\n<title>Unkown error</title>\n</head>\n</html>\n");
+			break;
+			
 	}
-	else if (!strcmp(request,"OPTIONS")){
-		code = 405;
-	}
-	else{
-	}
-	if (connection == NULL)
-		code = 400;
-	
-	
-
-
-	if (code != 200)
-		printf("%s %d %s\n", http, code,"ERROR");
-	else
-		printf("%s %d %s\n", http, code,"OK");
-
-	printf("Date: %s\n",current_time);
-	printf("Server: Server da Carla e do Caio 0.0.001\n");
-	printf("Connection: %s\n",connection);
-
-	if (code == 200){
-		info = localtime(&t);
-		strftime(change_time, 26, "%Y-%m-%d %H:%M:%S", info);
-
-		printf("Last-Modified: %s\n", change_time);
-		printf("Content-Length: %ld\n", size);
-		printf("Content-Type: text/html\n");
-		if (resource != NULL){
-			printf("%s",resource);
-			free(resource);
-		}	
-	}		
-
+	return error;
 }
 
+	
