@@ -267,9 +267,9 @@ void http_response(http_request_t * list){
 
 char * get_current_time(){
 	#define n_characters 26
-	time_t time;
-	time(&time);
-	struct tm * info = localtime(&time);
+	time_t t;
+	time(&t);
+	struct tm * info = localtime(&t);
 	char * time_s = asctime(info);
 	char * aux = "Date ";
 	char * ret = malloc(sizeof(char) * (strlen(time_s) + strlen(aux)+1));
