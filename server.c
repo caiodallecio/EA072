@@ -91,7 +91,7 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 											filedesc = open(welcome_path, O_RDONLY);
 											data = malloc(sizeof(char) * fileStat_welcome.st_size);
 											read(filedesc, data, fileStat_welcome.st_size);
-											lose(filedesc);
+											close(filedesc);
 											ret->data = data;
 										} else {
 											ret->data = NULL;
@@ -327,7 +327,7 @@ char * get_content_lenght_message(resource_t * r){
 	char * ret;
 	char buffer[30];
 	sprintf(buffer,"%ld\n\r",r->size);
-	ret = malloc(sizeof(char) * (strelen(buffer) + strlen(aux) + 1));
+	ret = malloc(sizeof(char) * (strlen(buffer) + strlen(aux) + 1));
 	strcpy(ret,aux);
 	strcat(ret,buffer);
 	return ret;
