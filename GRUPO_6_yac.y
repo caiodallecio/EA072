@@ -17,7 +17,7 @@
 	char * text;
 	struct params * parametro;
 	struct commands * comando;
-	enum request * req;
+	enum request req;
 	struct http_request * http_request_list
 }
 
