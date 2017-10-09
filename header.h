@@ -1,6 +1,6 @@
 #ifndef __header__
 #define __header__
-enum request {GET,POST,TRACE,HEAD,OPTIONS};
+enum request {GET = 0,POST,TRACE,HEAD,OPTIONS};
 typedef enum request request_t;
 
 struct params{
