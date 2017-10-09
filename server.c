@@ -346,6 +346,8 @@ char * on_get(http_request_t get){
 	total_lenght += strlen(resource_message);
 	char * server_message = server_message();
 	total_lenght += strlen(server_message);
+	char * current_time = get_current_time();
+	total_lenght += strlen(current_time);
 	char * resource_time = NULL;
 	char * content_lenght = NULL;
 	char * content_type = get_content_type();
@@ -370,7 +372,33 @@ char * on_get(http_request_t get){
 	}
 	total_lenght += 3; // \n\r\0 before end 
 	ret = malloc(sizeof(char) * total_lenght);
-	
+	if (code == 200) {
+		sprintf(ret,"%s%s%s%s%s%s\n\r%s\n\r",
+			resource_message,
+			server_message,
+			current_time,
+			resource_time,
+			content_lenght,
+			content_type,
+			resource_data)
+			free(resource_time);
+	} else {
+		sprintf(ret,"%s%s%s%s%s\n\r%s\n\r",
+			resource_message,
+			server_message,
+			current_time,
+			content_lenght,
+			content_type,
+			resource_data)
+	}
+	free(resource_message);
+	free(server_message);
+	free(current_time);
+	free(content_lenght);
+	free(content_type);
+	free(resource_data);
+
+	return  ret;
 
 
 }
