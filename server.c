@@ -269,16 +269,20 @@ char * get_current_time(){
 	time(&time);
 	struct tm * info = localtime(&time);
 	char * time_s = asctime(info);
-	char * ret = malloc(sizeof(char) * strlen(time_s));
-	strcpy(ret,time_s);
+	char * aux = "Date ";
+	char * ret = malloc(sizeof(char) * (strlen(time_s) + strlen(aux)+1));
+	strcpy(ret,aux);
+	strcat(ret,time_s);
 	return ret;
 }
 
 char * get_resource_time(resource_t * p) {
 	struct tm * info = localtime(&p->modified);
 	char * time_s = asctime(info);
-	char * ret = malloc(sizeof(char) * strlen(time_s));
-	strcpy(ret,time_s);
+	char * aux = "Last-Modified: ";
+	char * ret = malloc(sizeof(char) * (strlen(time_s) + strlen(aux)+1));
+	strcpy(ret,aux);
+	strcat(ret,time_s);
 	return ret;
 }
 
@@ -312,9 +316,21 @@ char * errorProc(int errorN) {
 	return error;
 }
 
+char * get_server_message(){
+	return strdup("Server: Caio & Carla 0.0.02 (Linux)\n\r")
+}
+
 char * on_get(http_request_t get){
 	resource_t * resource = get_resource(SERVERPATH,get->resource,True);
 	char * resource_message = message_header(resource->code);
+	char * server_message = server_message();
+	char * resource_time = NULL;
+	char * content_lenght = NULL;
+	if(code = 200){
+		resource_time = get_resource_time(resource);
+	}
+
+
 }
 
 	
