@@ -14,5 +14,7 @@ typedef struct resource resource_t;
  
 resource_t * get_resource(char * path, char * resource, unsigned char data);
 
-void http_response(commands_t * tree);
+void http_response(http_request_t * list);
+
+char * get_current_time();
 #endif

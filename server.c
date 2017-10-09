@@ -237,13 +237,21 @@ void http_response(http_request_t * list){
 char * get_current_time(){
 	#define n_characters 26
 	time_t time;
-	localtime(&t);
-	struct tm * info;
-	char * ret = malloc(sizeof(char) * n_characters);
-	strftime(ret, n_characters, "%Y-%m-%d %H:%M:%S", info)
+	time(&time);
+	struct tm * info = localtime(&time);
+	char * time_s = asctime(info);
+	char * ret = malloc(sizeof(char) * strlen(time_s));
+	strcpy(ret,time_s);
 	return ret;
 }
 
+char * get_resource_time(resource_t * p) {
+	struct tm * info = localtime(&p->modified);
+	char * time_s = asctime(info);
+	char * ret = malloc(sizeof(char) * strlen(time_s));
+	strcpy(ret,time_s);
+	return ret;
+}
 
 	else if (!strcmp(request,"HEAD")){
 		resource = get_resource(path, resource_name, &code, &size, &t);
@@ -258,7 +266,7 @@ char * get_current_time(){
 	if (connection == NULL)
 		code = 400;
 	
-	printf("%s\0",http);
+	
 
 
 	if (code != 200)
