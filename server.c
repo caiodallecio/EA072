@@ -52,7 +52,7 @@ resource_t * get_resource(char * path){
 			        case S_IFREG :
 					filedesc = open(result, O_RDONLY);
 					data = malloc(sizeof(char) * fileStat.st_size);
-					read(filedesc, buffer, fileStat.st_size);
+					read(filedesc, data, fileStat.st_size);
 					close(filedesc);
 					ret->code = 200;
 					ret->size = fileStat.st_size;
@@ -85,7 +85,7 @@ resource_t * get_resource(char * path){
 										//ESCREVE WELCOME.HTML NA TELA
 										filedesc = open(welcome_path, O_RDONLY);
 										data = malloc(sizeof(char) * fileStat.st_size);
-										read(filedesc, buffer, fileStat_welcome.st_size);
+										read(filedesc, data, fileStat_welcome.st_size);
 										close(filedesc);
 										ret->code = 200;
 										ret->size = fileStat.st_size;
@@ -111,7 +111,7 @@ resource_t * get_resource(char * path){
 									//ESCREVE INDEX.HTML NA TELA*
 									filedesc = open(index_path, O_RDONLY);
 									data = malloc(sizeof(char) * fileStat.st_size);
-									read(filedesc, buffer, fileStat_index.st_size);
+									read(filedesc, data, fileStat_index.st_size);
 									close(filedesc);
 									ret->code = 200;
 									ret->size = fileStat.st_size;
@@ -138,7 +138,7 @@ resource_t * get_resource(char * path){
 											//ESCREVE WELCOME.HTML NA TELA***************
 											filedesc = open(welcome_path, O_RDONLY);
 											data = malloc(sizeof(char) * fileStat.st_size);
-											read(filedesc, buffer, fileStat_welcome.st_size);
+											read(filedesc, data, fileStat_welcome.st_size);
 											close(filedesc);
 											ret->code = 200;
 											ret->size = fileStat.st_size;
