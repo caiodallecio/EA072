@@ -364,10 +364,10 @@ char * on_get(http_request_t * get){
 		total_lenght += strlen(content_lenght);
 		resource_data = resource->data;
 		total_lenght += strlen(resource_data);
-		total_lenght += 2 // \n\r before data
+		total_lenght += 2; // \n\r before data
 	}
 	else{
-		resource_data = errorProc(code);
+		resource_data = errorProc(resource->code);
 		total_lenght += strlen(resource_data);
 		resource->size = strlen(resource_data);
 		content_lenght = get_content_lenght_message(resource);
