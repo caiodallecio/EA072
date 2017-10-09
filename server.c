@@ -234,29 +234,17 @@ void http_response(http_request_t * list){
 	}
 }
 
+char * get_current_time(){
+	#define n_characters 26
+	time_t time;
+	localtime(&t);
+	struct tm * info;
+	char * ret = malloc(sizeof(char) * n_characters);
+	strftime(ret, n_characters, "%Y-%m-%d %H:%M:%S", info)
+	return ret;
+}
 
-	int code;
-	long size;
-	while(tree != NULL){
-		if(!strcmp("Connection",tree->comand))
-			connection = tree->param->param;
-		tree = tree->next;
-	}
 
-	time(&t);
-	info =  localtime(&t);
-	
-	strftime(current_time, 26, "%Y-%m-%d %H:%M:%S", info);
-
-	if(!strcmp(request,"GET")){
-		resource = get_resource(path, resource_name, &code, &size, &t);
-	}
-	else if (!strcmp(request,"POST")){
-		code = 405;
-	}
-	else if (!strcmp(request,"TRACE")){
-		code = 405;
-	}
 	else if (!strcmp(request,"HEAD")){
 		resource = get_resource(path, resource_name, &code, &size, &t);
 		free(resource);
