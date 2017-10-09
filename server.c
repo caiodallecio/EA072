@@ -331,14 +331,25 @@ char * get_content_lenght_message(resource_t r){
 	return ret;
 }
 
+char * get_content_type(){
+	return strdup("Content-Type: text/html\n\r");
+}
+
+char * get_connection_type(){
+	return strdup("Connection: Closed\n\r");
+}
+
 char * on_get(http_request_t get){
 	resource_t * resource = get_resource(SERVERPATH,get->resource,True);
 	char * resource_message = message_header(resource->code);
 	char * server_message = server_message();
 	char * resource_time = NULL;
 	char * content_lenght = NULL;
+	char * content_type = get_content_type();
+	char * connection_type = get_connection_type();
 	if(code = 200){
 		resource_time = get_resource_time(resource);
+		content_lenght = get_content_lenght_message(resource);
 	}
 
 
