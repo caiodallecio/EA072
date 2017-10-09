@@ -17,7 +17,7 @@
 	char * text;
 	struct params * parametro;
 	struct commands * comando;
-	enum request req;
+	int request;
 	struct http_request * http_request_list;
 }
 
@@ -26,7 +26,7 @@
 %token ESPACO
 %token DOISPTS
 %token<text> PALAVRA
-%token<req> REQUEST
+%token<request> REQUEST
 
 %type<comando> header header_list
 %type<http_request_list> http http_list

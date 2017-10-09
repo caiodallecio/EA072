@@ -1,7 +1,11 @@
 #ifndef __header__
 #define __header__
-enum request {GET = 0,POST,TRACE,HEAD,OPTIONS};
-typedef enum request request_t;
+
+#define GET 0
+#define POST 1
+#define TRACE 2
+#define HEAD 3
+#define OPTIONS 4
 
 struct params{
 	char * param;
@@ -17,7 +21,7 @@ struct commands{
 typedef struct commands commands_t;
 
 struct http_request{
-	request_t request;
+	int  request;
 	char * resource;
 	commands_t * header;
 	struct http_request * next;

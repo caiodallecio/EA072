@@ -9,23 +9,23 @@
 
 
 GET/.*			{
-				yylval.req = GET;
+				yylval.request = GET;
 				return(REQUEST);
 				}
 POST/.*			{
-				yylval.req = POST;
+				yylval.request = POST;
 				return(REQUEST);
 				}
 OPTIONS/.*		{
-				yylval.req = OPTIONS;
+				yylval.request = OPTIONS;
 				return(REQUEST);
 				}
 HEAD/.*			{
-				yylval.req = HEAD;
+				yylval.request = HEAD;
 				return(REQUEST);
 				}
 TRACE/.*		{
-				yylval.req = TRACE;
+				yylval.request = TRACE;
 				return(REQUEST);
 				}
 #.*				;
