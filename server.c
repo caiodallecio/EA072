@@ -384,7 +384,7 @@ char * on_get(http_request_t * get){
 			content_lenght,
 			content_type,
 			connection_type,
-			resource_data)
+			resource_data);
 			free(resource_time);
 	} else {
 		sprintf(ret,"%s%s%s%s%s%s\n\r%s\n\r",
@@ -394,13 +394,14 @@ char * on_get(http_request_t * get){
 			content_lenght,
 			content_type,
 			connection_type,
-			resource_data)
+			resource_data);
 	}
 	free(resource_message);
 	free(server_message);
 	free(current_time);
 	free(content_lenght);
 	free(content_type);
+	free(connection_type);
 	free(resource_data);
 
 	return  ret;

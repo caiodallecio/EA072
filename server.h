@@ -37,7 +37,7 @@ char * get_resource_time(resource_t * p);
 
 char * get_server_message();
 
-char * get_content_lenght_message(resource_t r);
+char * get_content_lenght_message(resource_t * r);
 
 char * get_content_type();
 
