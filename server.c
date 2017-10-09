@@ -208,6 +208,35 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 	
 }
 
+char * message_header(int code){
+	char * ret;
+	char * http = "HTPP/1.1 ";
+	char * message;
+	switch (code) {
+		case 200:
+			message = M200;
+			break;
+		case 400:
+			message = M400;
+			break;
+		case 403:
+			message = M403;
+			break;
+		case 404:
+			message = M404;
+			break;
+		case 405:
+			message = M405;
+			break;
+		default:
+			message = "Unkown error\n\r"
+	}
+	ret = malloc(sizeof(char) * (strlen(message) + strlen(http) + 1));
+	strcpy(ret,http);
+	strcat(ret,message);
+	return ret;
+
+}
 
 void http_response(http_request_t * list){
 	char * ret;
@@ -254,33 +283,38 @@ char * get_resource_time(resource_t * p) {
 }
 
 char * errorProc(int errorN) {
-	char* error[300];
+	char * error;
 
 	switch(errorN){
 		case 400://Bad Request
-			strcpy(error,"<html>\n<head>\n<title>Error 400 Bad Request</title>\n</head>\n</html>\n");
+			error = strdup("<html>\n<head>\n<title>Error 400 Bad Request</title>\n</head>\n</html>\n");
 			break;
 		case 403://Forbidden
-			strcpy(error,"<html>\n<head>\n<title>Error 403 Forbidden</title>\n</head>\n</html>\n");
+			error = strdup("<html>\n<head>\n<title>Error 403 Forbidden</title>\n</head>\n</html>\n");
 			break;
 		case 404://Not Found
-			strcpy(error,"<html>\n<head>\n<title>Error 404 Not Found</title>\n</head>\n</html>\n");
+			error = strdup("<html>\n<head>\n<title>Error 404 Not Found</title>\n</head>\n</html>\n");
 			break;
 		case 405:// Method Not Allowed
-			strcpy(error,"<html>\n<head>\n<title>Error 405 Method Not Allowed</title>\n</head>\n</html>\n");
+			error = strdup("<html>\n<head>\n<title>Error 405 Method Not Allowed</title>\n</head>\n</html>\n");
 			break;
 		case 500:// Internal Server Error
-			strcpy(error,"<html>\n<head>\n<title>Error 500 Internal Server Error</title>\n</head>\n</html>\n");
+			error = strdup("<html>\n<head>\n<title>Error 500 Internal Server Error</title>\n</head>\n</html>\n");
 	    	break;
 		case 501:// Not Implemented
-			strcpy(error,"<html>\n<head>\n<title>Error 501 Not Implemented</title>\n</head>\n</html>\n");
+			error = strdup("<html>\n<head>\n<title>Error 501 Not Implemented</title>\n</head>\n</html>\n");
 			break;
 		default:
-			strcpy(error,"<html>\n<head>\n<title>Unkown error</title>\n</head>\n</html>\n");
+			error = strdup("<html>\n<head>\n<title>Unkown error</title>\n</head>\n</html>\n");
 			break;
 			
 	}
 	return error;
+}
+
+char * on_get(http_request_t get){
+	resource_t * resource = get_resource(SERVERPATH,get->resource,True);
+	char * resource_message = message_header(resource->code);
 }
 
 	
