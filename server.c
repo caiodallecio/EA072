@@ -9,7 +9,7 @@
 #include <time.h>
 #include "header.h"
 #include "server.h"
-resource_t * get_resource(char * path, char * resource){
+resource_t * get_resource(char * path, char * resource, unsigned char data){
 	
 	char *result = malloc(strlen(path)+strlen(resource)+1);//+1 for the zero-terminator
 	char * index_path = malloc(strlen(result)+ strlen("index.html")+1);
@@ -49,15 +49,19 @@ resource_t * get_resource(char * path, char * resource){
 		 if(fileStat.st_mode & S_IRUSR){
 			 
 			switch (fileStat.st_mode & S_IFMT){
-			        case S_IFREG :
-					filedesc = open(result, O_RDONLY);
-					data = malloc(sizeof(char) * fileStat.st_size);
-					read(filedesc, data, fileStat.st_size);
-					close(filedesc);
+					case S_IFREG :
+					if(data == True) {
+						filedesc = open(result, O_RDONLY);
+						data = malloc(sizeof(char) * fileStat.st_size);
+						read(filedesc, data, fileStat.st_size);
+						close(filedesc);
+						ret->data = data;
+					} else {
+						ret->data = NULL;
+					}
 					ret->code = 200;
 					ret->size = fileStat.st_size;
 					ret->modified = fileStat.st_mtime;
-					ret->data = data;
 					free(result);
 					free(index_path);
 					free(welcome_path);
@@ -194,21 +198,31 @@ resource_t * get_resource(char * path, char * resource){
 }
 
 
-void http_response(commands_t * tree){
-	char * path = "/home/caio/atividade7/meu-webspace";
-	char deli = ' ';
-	char * request = tree->comand;
-	char * resource_name = strtok(tree->param->param,&deli);
-	char * http = strtok(NULL,&deli);
-	
-	
-	char * connection = NULL;
-	char * resource = NULL;
+void http_response(http_request_t * list){
+	char * ret;
+	while(list != NULL){
+		switch (list->request){
+			case GET:
+				ret = on_get(list);
+				break;
+			case HEAD:
+				ret = on_head(list);
+				break;
+			case TRACE:
+				ret = on_trace(list);
+				break;
+			case OPTIONS:
+				ret = on_options(list);
+				break;
+			case POST:
+				ret = on_post(list);
+				break;
 
-	char current_time[26] ,change_time[26];
+		
+		}
+	}
+}
 
-	time_t t;
-	struct tm *info;
 
 	int code;
 	long size;
