@@ -257,9 +257,11 @@ void http_response(http_request_t * list){
 			case POST:
 				ret = on_post(list);
 				break;
-
-		
 		}
+		if (ret != NULL)
+			printf("%s",ret);
+			
+		list = list->next;
 	}
 }
 
