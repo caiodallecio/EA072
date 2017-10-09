@@ -9,7 +9,7 @@
 #include <time.h>
 #include "header.h"
 #include "server.h"
-resource_t * get_resource(char * path){
+resource_t * get_resource(char * path, char * resource){
 	
 	char *result = malloc(strlen(path)+strlen(resource)+1);//+1 for the zero-terminator
 	char * index_path = malloc(strlen(result)+ strlen("index.html")+1);
