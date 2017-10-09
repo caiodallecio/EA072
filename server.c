@@ -322,7 +322,7 @@ char * get_server_message(){
 	return strdup("Server: Caio & Carla 0.0.02 (Linux)\n\r")
 }
 
-char * get_content_lenght_message(resource_t r){
+char * get_content_lenght_message(resource_t * r){
 	char * aux = "Content-Length: ";
 	char * ret;
 	char buffer[30];
@@ -346,17 +346,18 @@ char * on_get(http_request_t * get){
 	resource_t * resource = get_resource(SERVERPATH,get->resource,True);
 	char * resource_message = message_header(resource->code);
 	total_lenght += strlen(resource_message);
-	char * server_message = server_message();
+	char * server_message = get_server_message();
 	total_lenght += strlen(server_message);
 	char * current_time = get_current_time();
 	total_lenght += strlen(current_time);
 	char * resource_time = NULL;
 	char * content_lenght = NULL;
 	char * content_type = get_content_type();
-	total_lenght += strlen(connection_type);
+	total_lenght += strlen(content_type);
+	char * connection_type = get_connection_type();
 	char * resource_data = NULL;
 	char * ret;
-	if(code = 200){
+	if(resource->code = 200){
 		resource_time = get_resource_time(resource);
 		total_lenght += strlen(resource_time);
 		content_lenght = get_content_lenght_message(resource);
@@ -374,23 +375,25 @@ char * on_get(http_request_t * get){
 	}
 	total_lenght += 3; // \n\r\0 before end 
 	ret = malloc(sizeof(char) * total_lenght);
-	if (code == 200) {
-		sprintf(ret,"%s%s%s%s%s%s\n\r%s\n\r",
+	if (resource->code == 200) {
+		sprintf(ret,"%s%s%s%s%s%s%s\n\r%s\n\r",
 			resource_message,
 			server_message,
 			current_time,
 			resource_time,
 			content_lenght,
 			content_type,
+			connection_type,
 			resource_data)
 			free(resource_time);
 	} else {
-		sprintf(ret,"%s%s%s%s%s\n\r%s\n\r",
+		sprintf(ret,"%s%s%s%s%s%s\n\r%s\n\r",
 			resource_message,
 			server_message,
 			current_time,
 			content_lenght,
 			content_type,
+			connection_type,
 			resource_data)
 	}
 	free(resource_message);
