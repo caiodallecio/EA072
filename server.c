@@ -319,7 +319,7 @@ char * errorProc(int errorN) {
 }
 
 char * get_server_message(){
-	return strdup("Server: Caio & Carla 0.0.02 (Linux)\n\r")
+	return strdup("Server: Caio & Carla 0.0.02 (Linux)\n\r");
 }
 
 char * get_content_lenght_message(resource_t * r){
