@@ -137,6 +137,7 @@ void print_command(commands_t * p) {
 
 void main() {
 		yyparse();
+		http_response(list);
 } 
 
 
