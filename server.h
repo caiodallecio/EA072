@@ -45,11 +45,11 @@ char * get_connection_type();
 
 char * on_get(http_request_t get);
 
-char * on_trace(http_request_t get);
+char * on_trace(http_request_t trace);
 
-char * on_head(http_request_t get);
+char * on_head(http_request_t head);
 
-char * on_options(http_request_t get);
+char * on_options(http_request_t options);
 
-char * on_post(http_request_t get);
+char * on_post(http_request_t post);
 #endif

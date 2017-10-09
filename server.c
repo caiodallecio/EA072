@@ -118,7 +118,7 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 								//caso tenha permissao de leitura
 								if(fileStat_index.st_mode & S_IRUSR){
 									//ESCREVE INDEX.HTML NA TELA*
-									if (get_resource == True) {
+									if (load_data == True) {
 										filedesc = open(index_path, O_RDONLY);
 										data = malloc(sizeof(char) * fileStat_index.st_size);
 										read(filedesc, data, fileStat_index.st_size);
@@ -147,7 +147,7 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 										
 										//caso welcome.html possua permissao de leitura
 										if(fileStat_welcome.st_mode & S_IRUSR){
-											if (get_resource == True) {
+											if (load_data == True) {
 												filedesc = open(welcome_path, O_RDONLY);
 												data = malloc(sizeof(char) * fileStat_welcome.st_size);
 												read(filedesc, data, fileStat_welcome.st_size);
@@ -229,7 +229,7 @@ char * message_header(int code){
 			message = M405;
 			break;
 		default:
-			message = "Unkown error\n\r"
+			message = "Unkown error\n\r";
 	}
 	ret = malloc(sizeof(char) * (strlen(message) + strlen(http) + 1));
 	strcpy(ret,http);
@@ -260,7 +260,7 @@ void http_response(http_request_t * list){
 		}
 		if (ret != NULL)
 			printf("%s",ret);
-			
+
 		list = list->next;
 	}
 }
@@ -341,7 +341,7 @@ char * get_connection_type(){
 	return strdup("Connection: Closed\n\r");
 }
 
-char * on_get(http_request_t get){
+char * on_get(http_request_t * get){
 	int total_lenght = 0;
 	resource_t * resource = get_resource(SERVERPATH,get->resource,True);
 	char * resource_message = message_header(resource->code);
@@ -405,19 +405,19 @@ char * on_get(http_request_t get){
 
 }
 
-char * on_head(http_request_t get){
+char * on_head(http_request_t * head){
 	return NULL;
 }
 
-char * on_trace(http_request_t get){
+char * on_trace(http_request_t * trace){
 	return NULL;
 }
 
-char * on_options(http_request_t get){
+char * on_options(http_request_t * options){
 	return NULL;
 }
 
-char * on_post(http_request_t get){
+char * on_post(http_request_t * post){
 	return NULL;
 }
 	
