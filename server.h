@@ -28,4 +28,20 @@ char * get_current_time();
 char * get_resource_time(resource_t * p);
 
 char * errorProc(int errorN);
+
+char * message_header(int code);
+
+char * get_current_time();
+
+char * get_resource_time(resource_t * p);
+
+char * get_server_message();
+
+char * get_content_lenght_message(resource_t r);
+
+char * get_content_type();
+
+char * get_connection_type();
+
+char * on_get(http_request_t get);
 #endif
