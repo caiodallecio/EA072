@@ -320,6 +320,17 @@ char * get_server_message(){
 	return strdup("Server: Caio & Carla 0.0.02 (Linux)\n\r")
 }
 
+char * get_content_lenght_message(resource_t r){
+	char * aux = "Content-Length: ";
+	char * ret;
+	char buffer[30];
+	sprintf(buffer,"%ld\n\r",r->size);
+	ret = malloc(sizeof(char) * (strelen(buffer) + strlen(aux) + 1));
+	strcpy(ret,aux);
+	strcat(ret,buffer);
+	return ret;
+}
+
 char * on_get(http_request_t get){
 	resource_t * resource = get_resource(SERVERPATH,get->resource,True);
 	char * resource_message = message_header(resource->code);
