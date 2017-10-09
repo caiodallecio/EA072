@@ -9,7 +9,7 @@
 #include <time.h>
 #include "header.h"
 #include "server.h"
-resource_t * get_resource(char * path, char * resource, unsigned char data){
+resource_t * get_resource(char * path, char * resource, unsigned char load_data){
 	
 	char *result = malloc(strlen(path)+strlen(resource)+1);//+1 for the zero-terminator
 	char * index_path = malloc(strlen(result)+ strlen("index.html")+1);
@@ -50,22 +50,22 @@ resource_t * get_resource(char * path, char * resource, unsigned char data){
 			 
 			switch (fileStat.st_mode & S_IFMT){
 					case S_IFREG :
-					if(data == True) {
-						filedesc = open(result, O_RDONLY);
-						data = malloc(sizeof(char) * fileStat.st_size);
-						read(filedesc, data, fileStat.st_size);
-						close(filedesc);
-						ret->data = data;
-					} else {
-						ret->data = NULL;
-					}
-					ret->code = 200;
-					ret->size = fileStat.st_size;
-					ret->modified = fileStat.st_mtime;
-					free(result);
-					free(index_path);
-					free(welcome_path);
-					return ret;
+						if(load_data == True) {
+							filedesc = open(result, O_RDONLY);
+							data = malloc(sizeof(char) * fileStat.st_size);
+							read(filedesc, data, fileStat.st_size);
+							close(filedesc);
+							ret->data = data;
+						} else {
+							ret->data = NULL;
+						}
+						ret->code = 200;
+						ret->size = fileStat.st_size;
+						ret->modified = fileStat.st_mtime;
+						free(result);
+						free(index_path);
+						free(welcome_path);
+						return ret;
 						
 			        case S_IFDIR : 
 					
@@ -86,15 +86,20 @@ resource_t * get_resource(char * path, char * resource, unsigned char data){
 									//caso tenha permissao de leitura
 									if(fileStat_welcome.st_mode & S_IRUSR){
 										
-										//ESCREVE WELCOME.HTML NA TELA
-										filedesc = open(welcome_path, O_RDONLY);
-										data = malloc(sizeof(char) * fileStat.st_size);
-										read(filedesc, data, fileStat_welcome.st_size);
-										close(filedesc);
+										
+										if(load_data == True) {
+											filedesc = open(welcome_path, O_RDONLY);
+											data = malloc(sizeof(char) * fileStat_welcome.st_size);
+											read(filedesc, data, fileStat_welcome.st_size);
+											lose(filedesc);
+											ret->data = data;
+										} else {
+											ret->data = NULL;
+										}
 										ret->code = 200;
-										ret->size = fileStat.st_size;
-										ret->modified = fileStat.st_mtime;	
-										ret->data = data;
+										ret->size = fileStat_welcome.st_size;
+										ret->modified = fileStat_welcome.st_mtime;	
+										
 										free(result);
 										free(index_path);
 										free(welcome_path);
@@ -113,14 +118,18 @@ resource_t * get_resource(char * path, char * resource, unsigned char data){
 								//caso tenha permissao de leitura
 								if(fileStat_index.st_mode & S_IRUSR){
 									//ESCREVE INDEX.HTML NA TELA*
-									filedesc = open(index_path, O_RDONLY);
-									data = malloc(sizeof(char) * fileStat.st_size);
-									read(filedesc, data, fileStat_index.st_size);
-									close(filedesc);
+									if (get_resource == True) {
+										filedesc = open(index_path, O_RDONLY);
+										data = malloc(sizeof(char) * fileStat_index.st_size);
+										read(filedesc, data, fileStat_index.st_size);
+										close(filedesc);
+										ret->data = data;
+									} else {
+										ret->data = NULL;
+									}
 									ret->code = 200;
-									ret->size = fileStat.st_size;
-									ret->modified = fileStat.st_mtime;
-									ret->data = data;
+									ret->size = fileStat_index.st_size;
+									ret->modified = fileStat_index.st_mtime;
 									free(result);
 									free(index_path);
 									free(welcome_path);
@@ -138,16 +147,18 @@ resource_t * get_resource(char * path, char * resource, unsigned char data){
 										
 										//caso welcome.html possua permissao de leitura
 										if(fileStat_welcome.st_mode & S_IRUSR){
-										
-											//ESCREVE WELCOME.HTML NA TELA***************
-											filedesc = open(welcome_path, O_RDONLY);
-											data = malloc(sizeof(char) * fileStat.st_size);
-											read(filedesc, data, fileStat_welcome.st_size);
-											close(filedesc);
+											if (get_resource == True) {
+												filedesc = open(welcome_path, O_RDONLY);
+												data = malloc(sizeof(char) * fileStat_welcome.st_size);
+												read(filedesc, data, fileStat_welcome.st_size);
+												close(filedesc);
+												ret->data = data;
+											} else {
+												ret->data = NULL;
+											}
 											ret->code = 200;
-											ret->size = fileStat.st_size;
-											ret->modified = fileStat.st_mtime;
-											ret->data = data;
+											ret->size = fileStat_welcome.st_size;
+											ret->modified = fileStat_welcome.st_mtime;
 											free(result);
 											free(index_path);
 											free(welcome_path);
