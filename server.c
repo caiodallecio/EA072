@@ -345,6 +345,7 @@ char * on_get(http_request_t * get){
 	printf("On get\n");
 	int total_lenght = 0;
 	resource_t * resource = get_resource(SERVERPATH,get->resource,True);
+	printf("On get\n");
 	char * resource_message = message_header(resource->code);
 	total_lenght += strlen(resource_message);
 	char * server_message = get_server_message();
