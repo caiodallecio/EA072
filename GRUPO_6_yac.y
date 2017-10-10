@@ -54,7 +54,7 @@ http_list : http http_list	{
 				}
 	
 
-http: REQUEST PALAVRA PALAVRA LINEFEED header_list LINEFEED	{
+http: REQUEST PALAVRA LINEFEED header_list LINEFEED	{
 														http_request_t * ret = malloc(sizeof(http_request_t));
 														ret->request = $1;
 														ret->resource = $2;
