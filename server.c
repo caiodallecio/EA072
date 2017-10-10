@@ -31,7 +31,7 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 	}
 	char * index_path = malloc(sizeof(char) * (strlen(result) + strlen("/index.html") + 1));
 	char * welcome_path = malloc(sizeof(char) * (strlen(result) + strlen("/welcome.html") + 1));
-	
+
 	strcpy(index_path,result);
 	strcat(index_path,"/index.html");
 	
@@ -343,10 +343,8 @@ char * get_connection_type(){
 }
 
 char * on_get(http_request_t * get){
-	printf("On get\n");
 	int total_lenght = 0;
 	resource_t * resource = get_resource(SERVERPATH,get->resource,True);
-	printf("On get\n");
 	char * resource_message = message_header(resource->code);
 	total_lenght += strlen(resource_message);
 	char * server_message = get_server_message();
@@ -379,6 +377,7 @@ char * on_get(http_request_t * get){
 	}
 	total_lenght += 3; // \n\r\0 before end 
 	ret = malloc(sizeof(char) * total_lenght);
+	printf("On get\n");
 	if (resource->code == 200) {
 		sprintf(ret,"%s%s%s%s%s%s%s\n\r%s\n\r",
 			resource_message,
