@@ -11,9 +11,9 @@
 #include "server.h"
 resource_t * get_resource(char * path, char * resource, unsigned char load_data){
 	
-	char *result = malloc(strlen(path)+strlen(resource)+1);//+1 for the zero-terminator
-	char * index_path = malloc(strlen(result)+ strlen("index.html")+1);
-	char * welcome_path = malloc(strlen(result)+ strlen("welcome.html")+1);
+	char *result = malloc(sizeof(char) * (strlen(path) + strlen(resource) + 1));//+1 for the zero-terminator
+	char * index_path = malloc(sizeof(char) * (strlen(result) + strlen("/index.html") + 1));
+	char * welcome_path = malloc(sizeof(char) * (strlen(result) + strlen("/welcome.html") + 1));
 	char * data;
 	resource_t * ret = malloc(sizeof(resource_t));
 	struct stat fileStat;
