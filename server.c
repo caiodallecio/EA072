@@ -358,6 +358,7 @@ char * on_get(http_request_t * get){
 	char * connection_type = get_connection_type();
 	char * resource_data = NULL;
 	char * ret;
+	printf("On get\n");
 	if(resource->code = 200){
 		resource_time = get_resource_time(resource);
 		total_lenght += strlen(resource_time);
