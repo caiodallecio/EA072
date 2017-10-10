@@ -59,7 +59,8 @@ http: REQUEST PALAVRA LINEFEED header_list LINEFEED	{
 														ret->request = $1;
 														ret->resource = $2;
 														ret->header = $4;
-														//printf("HTTP request found\n");														
+														$$ = ret;
+														printf("HTTP request found\n");														
 													}
 header_list: header header_list	{
 									commands_t * ret;
