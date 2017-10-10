@@ -370,13 +370,11 @@ char * on_get(http_request_t * get){
 	char * connection_type = get_connection_type();
 	char * resource_data = NULL;
 	char * ret;
-	//printf("On get\n");
 	if(resource->code == 200){
 		resource_time = get_resource_time(resource);
 		total_lenght += strlen(resource_time);
 		content_lenght = get_content_lenght_message(resource);
 		total_lenght += strlen(content_lenght);
-		printf("!!%d\n",resource->data);
 		resource_data = resource->data;
 		total_lenght += strlen(resource_data);
 		total_lenght += 2; // \n\r before data
@@ -430,9 +428,27 @@ char * on_head(http_request_t * head){
 }
 
 char * on_trace(http_request_t * trace){
-	return NULL;
-}
+	int total_lenght = 0;
+	char * server_message = get_server_message();
+	total_lenght += strlen(server_message);
+	char * current_time = get_current_time();
+	total_lenght += strlen(current_time);
+	char * content_type = get_content_type();
+	total_lenght += strlen(content_type);
+	char * connection_type = get_connection_type();
 
+	char * ret;
+	
+	total_lenght += 3; // \n\r\0 before end 
+	
+	ret = malloc(sizeof(char) * total_lenght);
+	
+	free(server_message);
+	free(current_time);
+	free(content_type);
+	free(connection_type);
+	return  ret;
+}
 char * on_options(http_request_t * options){
 	return NULL;
 }

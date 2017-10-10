@@ -1,5 +1,4 @@
 char * on_trace(http_request_t * trace){
-	printf("On Trace\n");
 	int total_lenght = 0;
 	char * server_message = get_server_message();
 	total_lenght += strlen(server_message);
@@ -15,15 +14,9 @@ char * on_trace(http_request_t * trace){
 	
 	ret = malloc(sizeof(char) * total_lenght);
 	
-	free(resource_message);
 	free(server_message);
 	free(current_time);
-	free(content_lenght);
 	free(content_type);
 	free(connection_type);
-	free(resource_data);
-
 	return  ret;
-	
-	return NULL;
 }
