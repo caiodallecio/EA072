@@ -58,7 +58,8 @@ http: REQUEST PALAVRA PALAVRA header_list LINEFEED	{
 														http_request_t * ret = malloc(sizeof(http_request_t));
 														ret->request = $1;
 														ret->resource = $2;
-														ret->header = $4;														
+														ret->header = $4;
+														printf("HTTP request found\n");														
 													}
 header_list: header header_list	{
 									commands_t * ret;
@@ -80,6 +81,7 @@ header: PALAVRA DOISPTS parametro LINEFEED	{
 												ret->param = $3;
 												ret->next = NULL;
 												$$ = ret;
+												printf("Header found\n");	
 											}
 	   | PALAVRA DOISPTS					{
 												commands_t * ret;
@@ -89,6 +91,7 @@ header: PALAVRA DOISPTS parametro LINEFEED	{
 												ret->param = NULL;
 												ret->next = NULL;
 												$$ = ret;
+												printf("Header found\n");
 	   										} 
 	   | DOISPTS parametro LINEFEED			{printf("Falta comando\n"); $$ = NULL;}
 
@@ -102,6 +105,7 @@ parametro: PALAVRA VIRGULA parametro 		{
 											strcpy(ret->param,$1);
 											ret->next = $3;
 											$$ = ret;
+											printf("Parametro found\n");	
 											}	
 	     | PALAVRA							{	
 				 							params_t * ret;
@@ -110,6 +114,7 @@ parametro: PALAVRA VIRGULA parametro 		{
 											strcpy(ret->param,$1);
 											ret->next = NULL;
 											$$ = ret;
+											printf("Parametro found\n");
 									 		}
 
 

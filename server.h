@@ -1,7 +1,7 @@
 #ifndef __server__
 #define __server__
 
-#define SERVERPATH "/home/caio/atividade7/meu-webspace" 
+#define SERVERPATH "/home/caio/EA072/meu-webspace/" 
 #define True 1
 #define False 0
 #define M200 "OK\n\r"
