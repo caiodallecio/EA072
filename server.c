@@ -221,6 +221,10 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 	
 }
 
+char * get_allowed_methods(){
+	return strdup("Allow: GET, HEAD, POST, TRACE, OPTIONS\n\r");
+}
+
 char * message_header(int code){
 	char * ret;
 	char * http = "HTTP/1.1 ";
@@ -284,7 +288,7 @@ char * get_current_time(){
 	time(&t);
 	struct tm * info = localtime(&t);
 	char * time_s = asctime(info);
-	char * aux = "Date ";
+	char * aux = "Date: ";
 	char * ret = malloc(sizeof(char) * (strlen(time_s) + strlen(aux)+1));
 	strcpy(ret,aux);
 	strcat(ret,time_s);
@@ -450,7 +454,30 @@ char * on_trace(http_request_t * trace){
 	return  ret;
 }
 char * on_options(http_request_t * options){
-	return NULL;
+	printf("On Trace\n");
+	int total_lenght = 0;
+	char * server_message = get_server_message();
+	total_lenght += strlen(server_message);
+	char * current_time = get_current_time();
+	total_lenght += strlen(current_time);
+	char * content_type = get_content_type();
+	total_lenght += strlen(content_type);
+	char * connection_type = get_connection_type();
+	total_lenght += strlen(connection_type);
+	char * allowed_methods = get_allowed_methods();
+	total_lenght += strlen(allowed_methods);
+	char * ret;
+	
+	total_lenght += 3; // \n\r\0 before end 
+	
+	ret = malloc(sizeof(char) * total_lenght);
+
+	free(server_message);
+	free(current_time);
+	free(content_type);
+	free(connection_type);
+	free(allowed_methods);
+	return ret;
 }
 
 char * on_post(http_request_t * post){
