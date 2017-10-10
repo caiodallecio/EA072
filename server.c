@@ -240,6 +240,7 @@ char * message_header(int code){
 
 void http_response(http_request_t * list){
 	char * ret;
+	printf("!!%d\n",list);
 	while(list != NULL){
 		switch (list->request){
 			case GET:
