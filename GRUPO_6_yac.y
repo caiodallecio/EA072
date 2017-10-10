@@ -106,7 +106,18 @@ parametro: PALAVRA VIRGULA parametro 		{
 											ret->next = $3;
 											$$ = ret;
 											printf("Parametro found\n");	
-											}	
+											}
+		 | PALAVRA parametro				{
+			 								params_t * ret;
+											ret = malloc(sizeof(params_t));
+											ret->param = malloc(sizeof(char)*256);
+											strcpy(ret->param,$1);
+											strcat(ret->param,$2->param);
+											ret->next = $2->next;
+											free($2)
+											$$ = ret;
+											printf("Parametro found\n");
+		 									}	
 	     | PALAVRA							{	
 				 							params_t * ret;
 											ret = malloc(sizeof(params_t));
