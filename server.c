@@ -51,7 +51,7 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 			 
 			switch (fileStat.st_mode & S_IFMT){
 					case S_IFREG :
-					printf("here 1\n");
+					
 						if(load_data == True) {
 							filedesc = open(result, O_RDONLY);
 							data = malloc(fileStat.st_size + 1);
@@ -61,7 +61,7 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 							ret->data = data;
 						} else {
 							ret->data = NULL;
-							printf("here 2\n");
+							
 						}
 						ret->code = 200;
 						ret->size = fileStat.st_size;
@@ -92,7 +92,7 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 										
 										
 										if(load_data == True) {
-											printf("here 3\n");
+											
 											filedesc = open(welcome_path, O_RDONLY);
 											data = malloc(fileStat_welcome.st_size + 1);
 											read(filedesc, data, fileStat_welcome.st_size);
@@ -100,7 +100,7 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 											close(filedesc);
 											ret->data = data;
 										} else {
-											printf("here 4\n");
+											
 											ret->data = NULL;
 										}
 										ret->code = 200;
@@ -126,7 +126,7 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 								if(fileStat_index.st_mode & S_IRUSR){
 									//ESCREVE INDEX.HTML NA TELA*
 									if (load_data == True) {
-										printf("here 5\n");
+										
 										filedesc = open(index_path, O_RDONLY);
 										data = malloc(fileStat_index.st_size + 1);
 										read(filedesc, data, fileStat_index.st_size);
@@ -134,7 +134,7 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 										close(filedesc);
 										ret->data = data;
 									} else {
-										printf("here 6\n");
+										
 										ret->data = NULL;
 									}
 									ret->code = 200;
@@ -158,7 +158,7 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 										//caso welcome.html possua permissao de leitura
 										if(fileStat_welcome.st_mode & S_IRUSR){
 											if (load_data == True) {
-												printf("here 7\n");
+									
 												filedesc = open(welcome_path, O_RDONLY);
 												data = malloc(fileStat_welcome.st_size + 1);
 												read(filedesc, data, fileStat_welcome.st_size);
@@ -166,7 +166,7 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 												close(filedesc);
 												ret->data = data;
 											} else {
-												printf("here 8\n");
+			
 												ret->data = NULL;
 											}
 											ret->code = 200;
