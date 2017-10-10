@@ -33,7 +33,7 @@ TRACE/.*		{
 				printf("TRACE was found\n");
 				return(REQUEST);
 				}
-HTTP/*			;
+HTTP/.*			;
 #.*				;
 [\n]			return(LINEFEED);
 ,[ \t]*			return(VIRGULA);
