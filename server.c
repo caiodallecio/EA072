@@ -90,8 +90,9 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 										
 										if(load_data == True) {
 											filedesc = open(welcome_path, O_RDONLY);
-											data = malloc(sizeof(char) * fileStat_welcome.st_size);
+											data = malloc(fileStat_welcome.st_size + 1);
 											read(filedesc, data, fileStat_welcome.st_size);
+											data[fileStat_welcome.st_size-1] = '\0'
 											close(filedesc);
 											ret->data = data;
 										} else {
@@ -121,8 +122,9 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 									//ESCREVE INDEX.HTML NA TELA*
 									if (load_data == True) {
 										filedesc = open(index_path, O_RDONLY);
-										data = malloc(sizeof(char) * fileStat_index.st_size);
-										read(filedesc, data, fileStat_index.st_size);
+										data = malloc(fileStat_welcome.st_size + 1);
+										read(filedesc, data, fileStat_welcome.st_size);
+										data[fileStat_welcome.st_size-1] = '\0'
 										close(filedesc);
 										ret->data = data;
 									} else {
@@ -150,8 +152,9 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 										if(fileStat_welcome.st_mode & S_IRUSR){
 											if (load_data == True) {
 												filedesc = open(welcome_path, O_RDONLY);
-												data = malloc(sizeof(char) * fileStat_welcome.st_size);
+												data = malloc(fileStat_welcome.st_size + 1);
 												read(filedesc, data, fileStat_welcome.st_size);
+												data[fileStat_welcome.st_size-1] = '\0'
 												close(filedesc);
 												ret->data = data;
 											} else {
