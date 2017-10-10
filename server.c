@@ -51,10 +51,13 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 			 
 			switch (fileStat.st_mode & S_IFMT){
 					case S_IFREG :
+					printf("here ???");
 						if(load_data == True) {
+							printf("here ???");
 							filedesc = open(result, O_RDONLY);
-							data = malloc(sizeof(char) * fileStat.st_size);
-							read(filedesc, data, fileStat.st_size);
+							data = malloc(fileStat_welcome.st_size + 1);
+							read(filedesc, data, fileStat_welcome.st_size);
+							data[fileStat_welcome.st_size-1] = '\0';
 							close(filedesc);
 							ret->data = data;
 						} else {
