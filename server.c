@@ -367,6 +367,7 @@ char * on_get(http_request_t * get){
 		total_lenght += strlen(resource_time);
 		content_lenght = get_content_lenght_message(resource);
 		total_lenght += strlen(content_lenght);
+		printf("!!%d",resource->data);
 		resource_data = resource->data;
 		total_lenght += strlen(resource_data);
 		total_lenght += 2; // \n\r before data
