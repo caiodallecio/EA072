@@ -114,7 +114,7 @@ parametro: PALAVRA VIRGULA parametro 		{
 											strcpy(ret->param,$1);
 											strcat(ret->param,$2->param);
 											ret->next = $2->next;
-											free($2)
+											free($2);
 											$$ = ret;
 											printf("Parametro found\n");
 		 									}	
