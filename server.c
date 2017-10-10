@@ -370,7 +370,7 @@ char * on_get(http_request_t * get){
 	char * connection_type = get_connection_type();
 	char * resource_data = NULL;
 	char * ret;
-	printf("On get\n");
+	//printf("On get\n");
 	if(resource->code == 200){
 		resource_time = get_resource_time(resource);
 		total_lenght += strlen(resource_time);
@@ -390,7 +390,7 @@ char * on_get(http_request_t * get){
 	}
 	total_lenght += 3; // \n\r\0 before end 
 	ret = malloc(sizeof(char) * total_lenght);
-	printf("On get\n");
+	//printf("On get\n");
 	if (resource->code == 200) {
 		sprintf(ret,"%s%s%s%s%s%s%s\n\r%s\n\r",
 			resource_message,
