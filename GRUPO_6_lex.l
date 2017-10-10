@@ -40,6 +40,7 @@ HTTP.*			;
 :[ \t]			return(DOISPTS);
 :$				return(DOISPTS);
 [ ]				;
+[\r]			;
 
 [^ :,\n#]+(:[^ :,\n#]+)?	{  
 						yylval.text = malloc(sizeof(char) * (strlen(yytext) + 1));

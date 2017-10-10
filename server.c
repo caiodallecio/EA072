@@ -223,7 +223,7 @@ resource_t * get_resource(char * path, char * resource, unsigned char load_data)
 
 char * message_header(int code){
 	char * ret;
-	char * http = "HTPP/1.1 ";
+	char * http = "HTTP/1.1 ";
 	char * message;
 	switch (code) {
 		case 200:
