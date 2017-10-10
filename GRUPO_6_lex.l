@@ -42,7 +42,7 @@ HTTP.*			;
 [ ]				;
 
 [^ :,\n#]+(:[^ :,\n#]+)?	{  
-						yylval.text = malloc(sizeof(char) * strlen(yytext));
+						yylval.text = malloc(sizeof(char) * (strlen(yytext) + 1));
 						strcpy(yylval.text,yytext);
 						//printf("Palavra was found %s\n",yytext);
 						return (PALAVRA);
