@@ -33,14 +33,15 @@ TRACE/.*		{
 				printf("TRACE was found\n");
 				return(REQUEST);
 				}
-HTTP/.*			;
+HTTP.*			;
 #.*				;
 [\n]			return(LINEFEED);
 ,[ \t]*			return(VIRGULA);
 :[ \t]			return(DOISPTS);
 :$				return(DOISPTS);
+[ ]				;
 
-[^ :,\n#]+:?[^:,\n#]*	{  
+[^ :,\n#]+:?[^ :,\n#]*	{  
 						yylval.text = malloc(sizeof(char) * strlen(yytext));
 						strcpy(yylval.text,yytext);
 						printf("Palavra was found %s\n",yytext);
