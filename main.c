@@ -51,12 +51,13 @@ int main(int argc, char const *argv[])
         perror("listen");
         exit(EXIT_FAILURE);
     }
+    while(1){
     if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0)
     {
         perror("accept");
         exit(EXIT_FAILURE);
     }
-    while(1){
+    
         valread = read( new_socket , buffer, 1024);
         YY_BUFFER_STATE internal_buffer = yy_scan_string(buffer);
         yyparse();
