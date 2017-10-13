@@ -132,31 +132,3 @@ parametro: PALAVRA VIRGULA parametro 		{
 
 %%
 
-void print_param(params_t * p) {
-	if (p == NULL)
-		return;
-	else {
-		printf("	Parametro: %s\n", p->param);
-		print_param(p->next);
-	}
-	
-}
-
-void print_command(commands_t * p) {
-	if (p == NULL)
-		return;
-	else{
-		printf("Commando: %s\n",p->comand);
-		print_param(p->param);
-		print_command(p->next);
-	}
-}
-
-void main() {
-		yyparse();
-		http_response(list);
-} 
-
-
-
-

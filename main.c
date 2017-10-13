@@ -3,6 +3,15 @@
 #include <stdlib.h>
 #include <netinet/in.h>
 #include <string.h>
+#include "y.tab.h"
+
+
+extern yy_buffer_state;
+typedef yy_buffer_state *YY_BUFFER_STATE;
+extern int yyparse();
+extern YY_BUFFER_STATE yy_scan_buffer(char *, size_t);
+
+
 #define PORT 8080
 int main(int argc, char const *argv[])
 {
@@ -11,7 +20,6 @@ int main(int argc, char const *argv[])
     int opt = 1;
     int addrlen = sizeof(address);
     char buffer[1024] = {0};
-    char *hello = "Hello from server";
       
     // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
@@ -43,13 +51,16 @@ int main(int argc, char const *argv[])
         perror("listen");
         exit(EXIT_FAILURE);
     }
-    if ((new_socket = accept(server_fd, (struct sockaddr *)&address, 
-                       (socklen_t*)&addrlen))<0)
+    if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0)
     {
         perror("accept");
         exit(EXIT_FAILURE);
     }
+
     valread = read( new_socket , buffer, 1024);
+    yy_scan_buffer(buffer, 1024);
+    yy_parse();
+    yy_delete_buffer(buffer);
     printf("%s\n",buffer );
     send(new_socket , hello , strlen(hello) , 0 );
     printf("Hello message sent\n");
