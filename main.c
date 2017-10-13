@@ -56,12 +56,12 @@ int main(int argc, char const *argv[])
         perror("accept");
         exit(EXIT_FAILURE);
     }
-
-    valread = read( new_socket , buffer, 1024);
-    YY_BUFFER_STATE internal_buffer = yy_scan_string(buffer);
-    yyparse();
-    yy_delete_buffer(internal_buffer);
-    printf("%s\n",buffer );
-    printf("Hello message sent\n");
+    while(True){
+        valread = read( new_socket , buffer, 1024);
+        YY_BUFFER_STATE internal_buffer = yy_scan_string(buffer);
+        yyparse();
+        yy_delete_buffer(internal_buffer);
+        printf("%s\n",buffer );
+    }
     return 0;
 }
