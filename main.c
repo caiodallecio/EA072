@@ -58,8 +58,8 @@ int main(int argc, char const *argv[])
     }
 
     valread = read( new_socket , buffer, 1024);
-    yy_scan_buffer(buffer, 1024);
-    yy_parse();
+    YY_BUFFER_STATE buffer = yy_scan_string(string);
+    yyparse();
     yy_delete_buffer(buffer);
     printf("%s\n",buffer );
     printf("Hello message sent\n");
