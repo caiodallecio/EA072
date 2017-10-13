@@ -1,4 +1,4 @@
-#include <stdio.h>
+ #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -428,59 +428,7 @@ char * on_get(http_request_t * get){
 }
 
 char * on_head(http_request_t * head){
-	int total_lenght = 0;
-	resource_t * resource = get_resource(SERVERPATH,get->resource,False);
-	char * resource_message = message_header(resource->code);
-	total_lenght += strlen(resource_message);
-	char * server_message = get_server_message();
-	total_lenght += strlen(server_message);
-	char * current_time = get_current_time();
-	total_lenght += strlen(current_time);
-	char * resource_time = NULL;
-	char * content_lenght = NULL;
-	char * content_type = get_content_type();
-	total_lenght += strlen(content_type);
-	char * connection_type = get_connection_type();
-	char * resource_data = NULL;
-	char * ret;
-	if(resource->code == 200){
-		resource_time = get_resource_time(resource);
-		total_lenght += strlen(resource_time);
-		content_lenght = get_content_lenght_message(resource);
-		total_lenght += strlen(content_lenght);
-		total_lenght += 2; // \n\r before data
-	}
-
-	total_lenght += 3; // \n\r\0 before end 
-	ret = malloc(sizeof(char) * total_lenght);
-	//printf("On get\n");
-	if (resource->code == 200) {
-		sprintf(ret,"%s%s%s%s%s%s%s\n\r",
-			resource_message,
-			server_message,
-			current_time,
-			resource_time,
-			content_lenght,
-			content_type,
-			connection_type);
-			free(resource_time);
-	} else {
-		sprintf(ret,"%s%s%s%s%s%s\n\r",
-			resource_message,
-			server_message,
-			current_time,
-			content_lenght,
-			content_type,
-			connection_type);
-	}
-	free(resource_message);
-	free(server_message);
-	free(current_time);
-	free(content_lenght);
-	free(content_type);
-	free(connection_type);
-
-	return  ret;
+	return NULL;
 }
 
 char * on_trace(http_request_t * trace){
@@ -499,16 +447,23 @@ char * on_trace(http_request_t * trace){
 	
 	ret = malloc(sizeof(char) * total_lenght);
 	
+	sprintf(ret,"%s%s%s%s\n\r%s\n\r",
+		server_message,
+		current_time,
+		content_type,
+		connection_type,
+		connection_type);
+		
 	free(server_message);
 	free(current_time);
 	free(content_type);
 	free(connection_type);
 	return  ret;
 }
-
 char * on_options(http_request_t * options){
-	printf("On Trace\n");
 	int total_lenght = 0;
+	char * resource_message = message_header(200);
+	total_lenght += strlen(resource_message);
 	char * server_message = get_server_message();
 	total_lenght += strlen(server_message);
 	char * current_time = get_current_time();
@@ -525,6 +480,14 @@ char * on_options(http_request_t * options){
 	
 	ret = malloc(sizeof(char) * total_lenght);
 
+	sprintf(ret,"%s%s%s%s%s%s\n\r",
+		resource_message,
+		server_message,
+		current_time,
+		content_type,
+		connection_type,
+		allowed_methods);
+		
 	free(server_message);
 	free(current_time);
 	free(content_type);
