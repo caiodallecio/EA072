@@ -56,7 +56,7 @@ int main(int argc, char const *argv[])
         perror("accept");
         exit(EXIT_FAILURE);
     }
-    while(True){
+    while(1){
         valread = read( new_socket , buffer, 1024);
         YY_BUFFER_STATE internal_buffer = yy_scan_string(buffer);
         yyparse();
