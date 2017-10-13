@@ -58,7 +58,7 @@ int main(int argc, char const *argv[])
     }
 
     valread = read( new_socket , buffer, 1024);
-    YY_BUFFER_STATE buffer = yy_scan_string(string);
+    YY_BUFFER_STATE buffer = yy_scan_string(buffer);
     yyparse();
     yy_delete_buffer(buffer);
     printf("%s\n",buffer );
