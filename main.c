@@ -4,13 +4,14 @@
 #include <netinet/in.h>
 #include <string.h>
 #include "y.tab.h"
+#include "header.h"
 
 
 typedef struct yy_buffer_state * YY_BUFFER_STATE;
 extern int yyparse();
 extern YY_BUFFER_STATE yy_scan_string(char * str);
 extern void yy_delete_buffer(YY_BUFFER_STATE buffer);
-
+extern http_request_t * list;
 
 #define PORT 8080
 int main(int argc, char const *argv[])
@@ -52,17 +53,18 @@ int main(int argc, char const *argv[])
         exit(EXIT_FAILURE);
     }
     while(1){
-    if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0)
-    {
-        perror("accept");
-        exit(EXIT_FAILURE);
-    }
-    
-        valread = read( new_socket , buffer, 1024);
-        YY_BUFFER_STATE internal_buffer = yy_scan_string(buffer);
-        yyparse();
-        yy_delete_buffer(internal_buffer);
-        printf("%s\n",buffer );
-    }
+        if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0)
+        {
+            perror("accept");
+            exit(EXIT_FAILURE);
+        }
+        
+            valread = read( new_socket , buffer, 1024);
+            YY_BUFFER_STATE internal_buffer = yy_scan_string(buffer);
+            yyparse();
+            yy_delete_buffer(internal_buffer);
+            
+            printf("%s\n", http_response(list));
+        }
     return 0;
 }
