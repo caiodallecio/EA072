@@ -62,7 +62,6 @@ int main(int argc, char const *argv[])
     yy_parse();
     yy_delete_buffer(buffer);
     printf("%s\n",buffer );
-    send(new_socket , hello , strlen(hello) , 0 );
     printf("Hello message sent\n");
     return 0;
 }
