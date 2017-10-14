@@ -68,7 +68,7 @@ int main(int argc, char const *argv[])
         yy_delete_buffer(internal_buffer);
         
         answer = (char*)http_response(list);
-        printf("<<<Responser>>>\n");
+        printf("<<<Response>>>\n");
         printf("%s\n",answer);
         send(new_socket , answer , strlen(answer) , 0 );
         free(answer);
