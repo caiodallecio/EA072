@@ -64,7 +64,7 @@ int main(int argc, char const *argv[])
             yyparse();
             yy_delete_buffer(internal_buffer);
             
-            printf("%s\n", http_response(list));
+            http_response(list);
         }
     return 0;
 }
