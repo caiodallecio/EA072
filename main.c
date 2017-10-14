@@ -72,7 +72,7 @@ int main(int argc, char const *argv[])
         printf("%s\n",answer);
         send(new_socket , answer , strlen(answer) , 0 );
         free(answer);
-        buffer = {0}; 
+        menset(buffer,0,sizeof(buffer));
         }
     return 0;
 }
