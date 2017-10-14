@@ -385,6 +385,7 @@ char * on_get(http_request_t * get){
 		resource->size = strlen(resource_data);
 		content_lenght = get_content_lenght_message(resource);
 		total_lenght += strlen(content_lenght);
+		total_lenght += 2; // \n\r before data
 	}
 	total_lenght += 3; // \n\r\0 before end 
 	ret = malloc(sizeof(char) * total_lenght);
