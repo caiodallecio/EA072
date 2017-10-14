@@ -68,9 +68,11 @@ int main(int argc, char const *argv[])
         yy_delete_buffer(internal_buffer);
         
         answer = (char*)http_response(list);
-        printf("<<<Request>>>\n");
+        printf("<<<Responser>>>\n");
         printf("%s\n",answer);
         send(new_socket , answer , strlen(answer) , 0 );
+        free(answer);
+        buffer = {0}; 
         }
     return 0;
 }
