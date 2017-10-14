@@ -257,29 +257,25 @@ char * message_header(int code){
 
 void http_response(http_request_t * list){
 	char * ret;
-	while(list != NULL){
-		switch (list->request){
-			case GET:
-				ret = on_get(list);
-				break;
-			case HEAD:
-				ret = on_head(list);
-				break;
-			case TRACE:
-				ret = on_trace(list);
-				break;
-			case OPTIONS:
-				ret = on_options(list);
-				break;
-			case POST:
-				ret = on_post(list);
-				break;
+	
+	switch (list->request){
+		case GET:
+			ret = on_get(list);
+			break;
+		case HEAD:
+			ret = on_head(list);
+			break;
+		case TRACE:
+			ret = on_trace(list);
+			break;
+		case OPTIONS:
+			ret = on_options(list);
+			break;
+		case POST:
+			ret = on_post(list);
+			break;
 		}
-		if (ret != NULL)
-			printf("%s",ret);
-
-		list = list->next;
-	}
+	return ret;
 }
 
 char * get_current_time(){

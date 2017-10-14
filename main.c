@@ -52,6 +52,7 @@ int main(int argc, char const *argv[])
         perror("listen");
         exit(EXIT_FAILURE);
     }
+    char * answer;
     while(1){
         if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0)
         {
@@ -64,7 +65,8 @@ int main(int argc, char const *argv[])
             yyparse();
             yy_delete_buffer(internal_buffer);
             
-            http_response(list);
+            answer = http_response(list);
+            send(new_socket , answer , strlen(answer) , 0 );
         }
     return 0;
 }
