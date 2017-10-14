@@ -255,7 +255,7 @@ char * message_header(int code){
 
 }
 
-void http_response(http_request_t * list){
+char * http_response(http_request_t * list){
 	char * ret;
 	
 	switch (list->request){
