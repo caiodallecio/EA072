@@ -357,34 +357,47 @@ char * get_connection_type(){
 char * on_get(http_request_t * get){
 	int total_lenght = 0;
 	resource_t * resource = get_resource(SERVERPATH,get->resource,True);
+	
 	char * resource_message = message_header(resource->code);
 	total_lenght += strlen(resource_message);
+
 	char * server_message = get_server_message();
 	total_lenght += strlen(server_message);
+
 	char * current_time = get_current_time();
 	total_lenght += strlen(current_time);
-	char * resource_time = NULL;
-	char * content_lenght = NULL;
+
 	char * content_type = get_content_type();
 	total_lenght += strlen(content_type);
+
 	char * connection_type = get_connection_type();
+	total_lenght += strlen(connection_type);
+	
+	char * resource_time = NULL;
+	char * content_lenght = NULL;
 	char * resource_data = NULL;
-	char * ret;
+	char * ret = NULL;
+	
 	if(resource->code == 200){
 		resource_time = get_resource_time(resource);
 		total_lenght += strlen(resource_time);
+		
 		content_lenght = get_content_lenght_message(resource);
 		total_lenght += strlen(content_lenght);
+
 		resource_data = resource->data;
 		total_lenght += strlen(resource_data);
+
 		total_lenght += 2; // \n\r before data
 	}
 	else{
 		resource_data = errorProc(resource->code);
 		total_lenght += strlen(resource_data);
+
 		resource->size = strlen(resource_data);
 		content_lenght = get_content_lenght_message(resource);
 		total_lenght += strlen(content_lenght);
+
 		total_lenght += 2; // \n\r before data
 	}
 	total_lenght += 3; // \n\r\0 before end 
