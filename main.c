@@ -61,12 +61,15 @@ int main(int argc, char const *argv[])
         }
         
         valread = read( new_socket , buffer, 1024);
+        printf("<<<Request>>>\n");
         printf("%s\n",buffer);
         YY_BUFFER_STATE internal_buffer = yy_scan_string(buffer);
         yyparse();
         yy_delete_buffer(internal_buffer);
         
-        answer = http_response(list);
+        answer = (char*)http_response(list);
+        printf("<<<Request>>>\n");
+        printf("%s\n",answer);
         send(new_socket , answer , strlen(answer) , 0 );
         }
     return 0;
