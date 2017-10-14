@@ -60,13 +60,14 @@ int main(int argc, char const *argv[])
             exit(EXIT_FAILURE);
         }
         
-            valread = read( new_socket , buffer, 1024);
-            YY_BUFFER_STATE internal_buffer = yy_scan_string(buffer);
-            yyparse();
-            yy_delete_buffer(internal_buffer);
-            
-            answer = http_response(list);
-            send(new_socket , answer , strlen(answer) , 0 );
+        valread = read( new_socket , buffer, 1024);
+        printf("%s\n",buffer);
+        YY_BUFFER_STATE internal_buffer = yy_scan_string(buffer);
+        yyparse();
+        yy_delete_buffer(internal_buffer);
+        
+        answer = http_response(list);
+        send(new_socket , answer , strlen(answer) , 0 );
         }
     return 0;
 }
