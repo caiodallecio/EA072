@@ -81,7 +81,7 @@ int main(int argc, char const *argv[])
                 yy_delete_buffer(internal_buffer);
                 
                 answer = (char*)http_response(list);
-                printf("<<<Response>>>\n");
+                //printf("<<<Response>>>\n");
                 printf("%s\n",answer);
                 send(new_socket, answer, strlen(answer), 0);
                 free(answer);
@@ -95,6 +95,7 @@ int main(int argc, char const *argv[])
             char * over = (char *)server_overload();
         
             send(new_socket, over, strlen(over), 0);
+            free(over);
         }
     } 
     return 0;
