@@ -30,7 +30,10 @@ int main(int argc, char const *argv[])
     char buffer[1024] = {0};
     memset(buffer,0,sizeof(buffer));
     
-    signal(SIGCHLD,sigchld_handler);
+    if(signal(SIGCHLD,sigchld_handler) == SIG_ERR) {
+        fputs("An error occurred while setting a signal handler.\n", stderr);
+        return EXIT_FAILURE;
+    }
 
     // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
