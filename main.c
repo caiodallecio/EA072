@@ -88,7 +88,7 @@ int main(int argc, char const *argv[])
             else
                 printf("Error on fork\n");
         } else {
-            char * over = server_overload();
+            char * over = (char *)server_overload();
         
             send(new_socket, over, strlen(over), 0);
         }
