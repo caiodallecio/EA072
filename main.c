@@ -86,6 +86,7 @@ int main(int argc, char const *argv[])
                 send(new_socket, answer, strlen(answer), 0);
                 free(answer);
                 memset(buffer,0,sizeof(buffer));
+                return 0 
             } else if (f == 0)
                 current_process++;
             else
