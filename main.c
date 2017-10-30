@@ -91,6 +91,7 @@ int main(int argc, char const *argv[])
             char * over = server_overload();
         
             send(new_socket, over, strlen(over), 0);
-    }
+        }
+    } 
     return 0;
 }

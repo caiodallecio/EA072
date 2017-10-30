@@ -444,8 +444,9 @@ char * on_get(http_request_t * get){
 char * server_overload(){	
 	int total_lenght = 0;
 	char * ret = NULL;
-	char * content_lenght
+	char * content_lenght;
 	char * resource_message = message_header(503);
+	resource_t * resource =  (resource_t*)malloc(sizeof(resource_t));
 
 	total_lenght += strlen(resource_message);
 
@@ -472,7 +473,7 @@ char * server_overload(){
 	
 	total_lenght += 3; // \n\r\0 before end 
 	ret = (char *)malloc(sizeof(char) * total_lenght);
-	
+	free(resource)
 
 	sprintf(ret,"%s%s%s%s%s%s\n\r%s\n\r",
 		resource_message,
