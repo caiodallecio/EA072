@@ -28,6 +28,7 @@ int main(int argc, char const *argv[])
     int opt = 1, f = 0;
     int addrlen = sizeof(address);
     char buffer[1024] = {0};
+    memset(buffer,0,sizeof(buffer));
     
     signal(SIGCHLD,sigchld_handler);
 
@@ -79,13 +80,13 @@ int main(int argc, char const *argv[])
                 YY_BUFFER_STATE internal_buffer = yy_scan_string(buffer);
                 yyparse();
                 yy_delete_buffer(internal_buffer);
-                
-                answer = (char*)http_response(list);
-                //printf("<<<Response>>>\n");
-                printf("%s\n",answer);
-                send(new_socket, answer, strlen(answer), 0);
-                free(answer);
-                memset(buffer,0,sizeof(buffer));
+                if(list != NULL){
+                    answer = (char*)http_response(list);
+                    printf("<<<Response>>>\n");
+                    printf("%s\n",answer);
+                    send(new_socket, answer, strlen(answer), 0);
+                    free(answer);
+                }
                 return 0;
             } else if (f == 0)
                 current_process++;
