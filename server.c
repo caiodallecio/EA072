@@ -462,7 +462,7 @@ char * server_overload(){
 	char * connection_type = get_connection_type();
 	total_lenght += strlen(connection_type);
 	
-	resource_data = errorProc(503);
+	char * resource_data = errorProc(503);
 	total_lenght += strlen(resource_data);
 
 	resource->size = strlen(resource_data);
@@ -473,7 +473,7 @@ char * server_overload(){
 	
 	total_lenght += 3; // \n\r\0 before end 
 	ret = (char *)malloc(sizeof(char) * total_lenght);
-	free(resource)
+	free(resource);
 
 	sprintf(ret,"%s%s%s%s%s%s\n\r%s\n\r",
 		resource_message,
