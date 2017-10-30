@@ -1,27 +1,35 @@
 #include <stdio.h>
 #include <sys/socket.h>
 #include <stdlib.h>
+#include <signal.h>
 #include <netinet/in.h>
 #include <string.h>
 #include "y.tab.h"
 #include "header.h"
-
+#define PORT 8080
+#define MAX_PROCESS 4
 
 typedef struct yy_buffer_state * YY_BUFFER_STATE;
 extern int yyparse();
 extern YY_BUFFER_STATE yy_scan_string(char * str);
 extern void yy_delete_buffer(YY_BUFFER_STATE buffer);
 extern http_request_t * list;
+int current_process = 0;
 
-#define PORT 8080
+void sigchld_handler(){
+    current_process--;
+}
+
 int main(int argc, char const *argv[])
 {
     int server_fd, new_socket, valread;
     struct sockaddr_in address;
-    int opt = 1;
+    int opt = 1, f = 0;
     int addrlen = sizeof(address);
     char buffer[1024] = {0};
-      
+    
+    signal(SIGCHLD,sigchld_handler);
+
     // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
     {
@@ -59,20 +67,28 @@ int main(int argc, char const *argv[])
             perror("accept");
             exit(EXIT_FAILURE);
         }
-        
-        valread = read( new_socket , buffer, 1024);
-        printf("<<<Request>>>\n");
-        printf("%s\n",buffer);
-        YY_BUFFER_STATE internal_buffer = yy_scan_string(buffer);
-        yyparse();
-        yy_delete_buffer(internal_buffer);
-        
-        answer = (char*)http_response(list);
-        printf("<<<Response>>>\n");
-        printf("%s\n",answer);
-        send(new_socket , answer , strlen(answer) , 0 );
-        free(answer);
-        memset(buffer,0,sizeof(buffer));
-        }
+        if(current_process < MAX_POCESS){
+            f = fork()
+            else if (f>0){
+                valread = read( new_socket , buffer, 1024);
+                printf("<<<Request>>>\n");
+                printf("%s\n",buffer);
+                YY_BUFFER_STATE internal_buffer = yy_scan_string(buffer);
+                yyparse();
+                yy_delete_buffer(internal_buffer);
+                
+                answer = (char*)http_response(list);
+                printf("<<<Response>>>\n");
+                printf("%s\n",answer);
+                send(new_socket, answer, strlen(answer), 0);
+                free(answer);
+                memset(buffer,0,sizeof(buffer));
+            } else if (f == 0)
+                current_process++
+            else
+                printf("Error on fork\n")
+        } else 
+            send(new_socket, error_405, strlen(error_405), 0);
+    }
     return 0;
 }
