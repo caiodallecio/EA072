@@ -442,7 +442,11 @@ char * on_get(http_request_t * get){
 }
 
 char * server_overload(){	
+	int total_lenght = 0;
+	char * ret = NULL;
+	char * content_lenght
 	char * resource_message = message_header(503);
+	
 	total_lenght += strlen(resource_message);
 
 	char * server_message = get_server_message();

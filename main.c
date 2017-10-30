@@ -67,7 +67,7 @@ int main(int argc, char const *argv[])
             perror("accept");
             exit(EXIT_FAILURE);
         }
-        if(current_process < MAX_POCESS){
+        else if(current_process < MAX_POCESS){
             f = fork();
             else if (f>0){
                 valread = read( new_socket , buffer, 1024);
@@ -84,9 +84,9 @@ int main(int argc, char const *argv[])
                 free(answer);
                 memset(buffer,0,sizeof(buffer));
             } else if (f == 0)
-                current_process++
+                current_process++;
             else
-                printf("Error on fork\n")
+                printf("Error on fork\n");
         } else {
             char * over = server_overload();
         
