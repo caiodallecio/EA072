@@ -53,4 +53,6 @@ char * on_head(http_request_t * head);
 char * on_options(http_request_t * options);
 
 char * on_post(http_request_t * post);
+
+char * server_overload();
 #endif
