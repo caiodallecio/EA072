@@ -67,9 +67,9 @@ int main(int argc, char const *argv[])
             perror("accept");
             exit(EXIT_FAILURE);
         }
-        else if(current_process < MAX_POCESS){
+        else if(current_process < MAX_PROCESS){
             f = fork();
-            else if (f>0){
+            if (f>0){
                 valread = read( new_socket , buffer, 1024);
                 printf("<<<Request>>>\n");
                 printf("%s\n",buffer);

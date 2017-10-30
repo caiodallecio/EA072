@@ -446,7 +446,7 @@ char * server_overload(){
 	char * ret = NULL;
 	char * content_lenght
 	char * resource_message = message_header(503);
-	
+
 	total_lenght += strlen(resource_message);
 
 	char * server_message = get_server_message();
@@ -471,7 +471,7 @@ char * server_overload(){
 	total_lenght += 2; // \n\r before data
 	
 	total_lenght += 3; // \n\r\0 before end 
-	ret = malloc(sizeof(char) * total_lenght);
+	ret = (char *)malloc(sizeof(char) * total_lenght);
 	
 
 	sprintf(ret,"%s%s%s%s%s%s\n\r%s\n\r",
