@@ -483,7 +483,7 @@ char * server_overload(){
 		content_type,
 		connection_type,
 		resource_data);
-	}
+	
 	free(resource_message);
 	free(server_message);
 	free(current_time);
