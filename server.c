@@ -364,7 +364,7 @@ char * on_get(http_request_t * get){
 	int total_lenght = 0;
 	resource_t * resource = get_resource(SERVERPATH,get->resource,True);
 	
-	char * resource_message = message_header(get->code);
+	char * resource_message = message_header(resource->code);
 	total_lenght += strlen(resource_message);
 
 	char * server_message = get_server_message();
