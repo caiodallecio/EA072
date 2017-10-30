@@ -11,6 +11,7 @@
 #define M405 "405 Not Allowed\n\r"
 #define M500 "500 Internal Error\n\r"
 #define M501 "501 Not Implemented\n\r"
+#define M503 "503 Temporaly Unavailable\n\r"
 struct resource{
 	time_t modified;	
 	char * data;

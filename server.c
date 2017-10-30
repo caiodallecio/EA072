@@ -245,6 +245,9 @@ char * message_header(int code){
 		case 405:
 			message = M405;
 			break;
+		case 503:
+			message = M503;
+			break;
 		default:
 			message = "Unkown error\n\r";
 	}
@@ -323,6 +326,9 @@ char * errorProc(int errorN) {
 		case 501:// Not Implemented
 			error = strdup("<html>\n<head>\n<title>Error 501 Not Implemented</title>\n</head>\n</html>\n");
 			break;
+		case 503:// Temporaly Unavailable
+			error = strdup("<html>\n<head>\n<title>Error 503 Temporaly Unavailable</title>\n</head>\n</html>\n");
+			break;
 		default:
 			error = strdup("<html>\n<head>\n<title>Unkown error</title>\n</head>\n</html>\n");
 			break;
@@ -358,7 +364,7 @@ char * on_get(http_request_t * get){
 	int total_lenght = 0;
 	resource_t * resource = get_resource(SERVERPATH,get->resource,True);
 	
-	char * resource_message = message_header(resource->code);
+	char * resource_message = message_header(503);
 	total_lenght += strlen(resource_message);
 
 	char * server_message = get_server_message();
@@ -433,7 +439,55 @@ char * on_get(http_request_t * get){
 	free(resource_data);
 
 	return  ret;
+}
 
+char * server_overload(){	
+	char * resource_message = message_header(503);
+	total_lenght += strlen(resource_message);
+
+	char * server_message = get_server_message();
+	total_lenght += strlen(server_message);
+
+	char * current_time = get_current_time();
+	total_lenght += strlen(current_time);
+
+	char * content_type = get_content_type();
+	total_lenght += strlen(content_type);
+
+	char * connection_type = get_connection_type();
+	total_lenght += strlen(connection_type);
+	
+	resource_data = errorProc(503);
+	total_lenght += strlen(resource_data);
+
+	resource->size = strlen(resource_data);
+	content_lenght = get_content_lenght_message(resource);
+	total_lenght += strlen(content_lenght);
+
+	total_lenght += 2; // \n\r before data
+	
+	total_lenght += 3; // \n\r\0 before end 
+	ret = malloc(sizeof(char) * total_lenght);
+	
+
+	sprintf(ret,"%s%s%s%s%s%s\n\r%s\n\r",
+		resource_message,
+		server_message,
+		current_time,
+		content_lenght,
+		content_type,
+		connection_type,
+		resource_data);
+	}
+	free(resource_message);
+	free(server_message);
+	free(current_time);
+	free(content_lenght);
+	free(content_type);
+	free(connection_type);
+	free(resource_data);
+
+	return  ret;
 
 }
 
