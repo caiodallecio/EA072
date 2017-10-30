@@ -6,7 +6,7 @@
 #include <string.h>
 #include "y.tab.h"
 #include "header.h"
-#define PORT 8080
+#define PORT 5000
 #define MAX_PROCESS 4
 
 typedef struct yy_buffer_state * YY_BUFFER_STATE;
