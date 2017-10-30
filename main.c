@@ -16,9 +16,11 @@ extern void yy_delete_buffer(YY_BUFFER_STATE buffer);
 extern http_request_t * list;
 int current_process = 0;
 
-void sigchld_handler(){
-    printf("One of the children has finished its job\n");
-    current_process--;
+void sigchld_handler(int sig){
+    if(sig == SIGCHLD){
+        printf("One of the children has finished its job\n");
+        current_process--;
+    }
 }
 
 int main(int argc, char const *argv[])
