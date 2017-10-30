@@ -17,6 +17,7 @@ extern http_request_t * list;
 int current_process = 0;
 
 void sigchld_handler(){
+    printf("One of the children has finished its job\n");
     current_process--;
 }
 
@@ -68,8 +69,10 @@ int main(int argc, char const *argv[])
             exit(EXIT_FAILURE);
         }
         else if(current_process < MAX_PROCESS){
+            printf("New Request\n");
             f = fork();
             if (f>0){
+                printf("New Process #%d\n",current_process);
                 valread = read( new_socket , buffer, 1024);
                 printf("<<<Request>>>\n");
                 printf("%s\n",buffer);
@@ -88,6 +91,7 @@ int main(int argc, char const *argv[])
             else
                 printf("Error on fork\n");
         } else {
+            printf("We have hitted max threads\n");
             char * over = (char *)server_overload();
         
             send(new_socket, over, strlen(over), 0);
