@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <sys/socket.h>
 #include <stdlib.h>
-#include <signal.h>
+#include <sys/wait.h>
+#include <sys/signal.h>
 #include <netinet/in.h>
 #include <string.h>
 #include "y.tab.h"
