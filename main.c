@@ -20,6 +20,10 @@ void sigchld_handler(int sig){
     if(sig == SIGCHLD){
         printf("One of the children has finished its job\n");
         current_process--;
+    } 
+    if(sig == SIGALRM){
+        printf("One of the children has finished its job\n");
+        current_process--;
     }
 }
 
