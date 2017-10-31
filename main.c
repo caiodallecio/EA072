@@ -105,6 +105,7 @@ int main(int argc, char const *argv[])
                 }
                 close(new_socket);
                 printf("Process #%d End\n",current_process);
+                kill(getppid(),SIGCHLD);
                 exit(0);
             } else if (f == 0){
                 current_process++;
