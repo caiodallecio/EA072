@@ -39,10 +39,13 @@ int main(int argc, char const *argv[])
     char buffer[1024] = {0};
     memset(buffer,0,sizeof(buffer));
     
-    if(signal(SIGCHLD,sigchld_handler) == SIG_ERR) {
-        fputs("An error occurred while setting a signal handler.\n", stderr);
-        return EXIT_FAILURE;
-    }
+    struct sigaction sa;
+    
+    memset(&sa, 0, sizeof(sa));
+    sa.sa_handler = sigchld_handler;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    sigaction(SIGCHLD, &sa, NULL);
    
 
     // Creating socket file descriptor
