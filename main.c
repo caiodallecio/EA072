@@ -36,7 +36,7 @@ int main(int argc, char const *argv[])
         fputs("An error occurred while setting a signal handler.\n", stderr);
         return EXIT_FAILURE;
     }
-    if(signal(SIGALARM,sigchld_handler) == SIG_ERR) {
+    if(signal(SIGALRM,sigchld_handler) == SIG_ERR) {
         fputs("An error occurred while setting a signal handler.\n", stderr);
         return EXIT_FAILURE;
     }
