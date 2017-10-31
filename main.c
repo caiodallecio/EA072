@@ -20,6 +20,7 @@ int current_process = 0;
 void sigchld_handler(int sig){
     int pid;
     int estado;
+
     do{
         pid = wait3(&estado,WNOHANG,NULL);
         printf("%d: Um sinal de mudanca do estado do processo-filho %d foi captado!\n",
@@ -39,13 +40,10 @@ int main(int argc, char const *argv[])
     char buffer[1024] = {0};
     memset(buffer,0,sizeof(buffer));
     
-    struct sigaction sa;
-    
-    memset(&sa, 0, sizeof(sa));
-    sa.sa_handler = sigchld_handler;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0;
-    sigaction(SIGCHLD, &sa, NULL);
+    if(signal(SIGCHLD,sigchld_handler) == SIG_ERR) {
+        fputs("An error occurred while setting a signal handler.\n", stderr);
+        return EXIT_FAILURE;
+    }
    
 
     // Creating socket file descriptor
@@ -97,16 +95,19 @@ int main(int argc, char const *argv[])
                 yyparse();
                 yy_delete_buffer(internal_buffer);
                 if(list != NULL){
+                    close(server_fd);
                     answer = (char*)http_response(list);
                     printf("<<<Response>>>\n");
                     printf("%s\n",answer);
                     send(new_socket, answer, strlen(answer), 0);
                     free(answer);
+                    close(new_socket);
                 }
                 exit(0);
-            } else if (f == 0)
+            } else if (f == 0){
                 current_process++;
-            else
+                close(new_socket);
+            } else
                 printf("Error on fork\n");
         } else {
             printf("We have hitted max threads\n");
