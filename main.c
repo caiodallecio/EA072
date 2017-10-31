@@ -94,15 +94,17 @@ int main(int argc, char const *argv[])
                 YY_BUFFER_STATE internal_buffer = yy_scan_string(buffer);
                 yyparse();
                 yy_delete_buffer(internal_buffer);
+                close(server_fd);
                 if(list != NULL){
-                    close(server_fd);
                     answer = (char*)http_response(list);
                     printf("<<<Response>>>\n");
                     printf("%s\n",answer);
                     send(new_socket, answer, strlen(answer), 0);
                     free(answer);
-                    close(new_socket);
+                    
                 }
+                close(new_socket);
+                printf("Process #%d End\n",current_process);
                 exit(0);
             } else if (f == 0){
                 current_process++;
@@ -115,6 +117,7 @@ int main(int argc, char const *argv[])
         
             send(new_socket, over, strlen(over), 0);
             free(over);
+            close(new_socket);
         }
     } 
     return 0;
