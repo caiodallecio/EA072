@@ -105,7 +105,7 @@ int main(int argc, char const *argv[])
                     send(new_socket, answer, strlen(answer), 0);
                     free(answer);
                 }
-                exit 0;
+                exit(0);
             } else if (f == 0)
                 current_process++;
             else
