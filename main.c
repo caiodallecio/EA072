@@ -48,10 +48,7 @@ int main(int argc, char const *argv[])
         fputs("An error occurred while setting a signal handler.\n", stderr);
         return EXIT_FAILURE;
     }
-    if(signal(SIGALRM,sigchld_handler) == SIG_ERR) {
-        fputs("An error occurred while setting a signal handler.\n", stderr);
-        return EXIT_FAILURE;
-    }
+   
 
     // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
@@ -108,7 +105,7 @@ int main(int argc, char const *argv[])
                     send(new_socket, answer, strlen(answer), 0);
                     free(answer);
                 }
-                return 0;
+                exit 0;
             } else if (f == 0)
                 current_process++;
             else
