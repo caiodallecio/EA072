@@ -17,16 +17,21 @@ extern http_request_t * list;
 int current_process = 0;
 
 void sigchld_handler(int sig){
-    int pid = wait(NULL);
-    if(sig == SIGCHLD){
-        
-        printf("One of the children has finished its job\n");
-        current_process--;
-    } 
-    if(sig == SIGALRM){
-        printf("One of the children has finished its job\n");
-        current_process--;
-    }
+    int pid;
+    int estado;
+    /* O loop abaixo é um detalhe importante. Um sinal SIGCHLD (em sistemas BSD) pode
+    estar "representando" múltiplos filhos e então o sinal SIGCHLD significa que um
+    ou mais filhos tiveram seu estado alterado.
+    */
+    do{
+        pid = wait3(&estado,WNOHANG,NULL);
+        printf("%d: Um sinal de mudanca do estado do processo-filho %d foi captado!\n",
+        getpid(),pid);
+        if (pid > 0){
+            printf("O processo-filho %d foi extinto! Estado=%d\n", pid,estado>>8);
+        }
+    } while( pid > 0 && printf("em loop! "));
+    signal(SIGCHLD,sigchld_handler);
 }
 
 int main(int argc, char const *argv[])
