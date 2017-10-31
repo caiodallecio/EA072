@@ -104,9 +104,8 @@ int main(int argc, char const *argv[])
                     
                 }
                 close(new_socket);
+                sleep(10);
                 printf("Process #%d End\n",current_process);
-                if (kill(getppid(),SIGALRM)<0)
-                    printf("Dafuq\n");
                 exit(0);
             } else if (f == 0){
                 current_process++;
