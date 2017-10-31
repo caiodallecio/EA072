@@ -20,15 +20,11 @@ int current_process = 0;
 void sigchld_handler(int sig){
     int pid;
     int estado;
-
     do{
         pid = wait3(&estado,WNOHANG,NULL);
-        printf("%d: Um sinal de mudanca do estado do processo-filho %d foi captado!\n",
-        getpid(),pid);
         if (pid > 0)
             current_process--;
-    } while( pid > 0 && printf("em loop! "));
-    //signal(SIGCHLD,sigchld_handler);
+    } while( pid > 0);
 }
 
 int main(int argc, char const *argv[])
@@ -38,7 +34,7 @@ int main(int argc, char const *argv[])
     int opt = 1, f = 0;
     int addrlen = sizeof(address);
     char buffer[1024] = {0};
-    memset(buffer,0,sizeof(buffer));
+    
     
     if(signal(SIGCHLD,sigchld_handler) == SIG_ERR) {
         fputs("An error occurred while setting a signal handler.\n", stderr);
@@ -87,6 +83,7 @@ int main(int argc, char const *argv[])
             printf("New Request\n");
             f = fork();
             if (f==0){
+                memset(buffer,0,sizeof(buffer));
                 printf("New Process #%d\n",current_process);
                 valread = read( new_socket , buffer, 1024);
                 printf("<<<Request>>>\n");
