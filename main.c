@@ -28,7 +28,7 @@ void sigchld_handler(int sig){
         if (pid > 0)
             current_process--;
     } while( pid > 0 && printf("em loop! "));
-    signal(SIGCHLD,sigchld_handler);
+    //signal(SIGCHLD,sigchld_handler);
 }
 
 int main(int argc, char const *argv[])
@@ -40,7 +40,7 @@ int main(int argc, char const *argv[])
     char buffer[1024] = {0};
     memset(buffer,0,sizeof(buffer));
     
-    if(signal(SIGALRM,sigchld_handler) == SIG_ERR) {
+    if(signal(SIGCHLD,sigchld_handler) == SIG_ERR) {
         fputs("An error occurred while setting a signal handler.\n", stderr);
         return EXIT_FAILURE;
     }
