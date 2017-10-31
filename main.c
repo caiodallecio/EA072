@@ -40,7 +40,7 @@ int main(int argc, char const *argv[])
     char buffer[1024] = {0};
     memset(buffer,0,sizeof(buffer));
     
-    if(signal(SIGLRM,sigchld_handler) == SIG_ERR) {
+    if(signal(SIGALRM,sigchld_handler) == SIG_ERR) {
         fputs("An error occurred while setting a signal handler.\n", stderr);
         return EXIT_FAILURE;
     }
@@ -105,7 +105,7 @@ int main(int argc, char const *argv[])
                 }
                 close(new_socket);
                 printf("Process #%d End\n",current_process);
-                if (kill(getppid(),SIGLRM)<0)
+                if (kill(getppid(),SIGALRM)<0)
                     printf("Dafuq\n");
                 exit(0);
             } else if (f == 0){
