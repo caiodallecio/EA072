@@ -17,7 +17,7 @@ extern http_request_t * list;
 int current_process = 0;
 
 void sigchld_handler(int sig){
-    pid = wait(NULL);
+    int pid = wait(NULL);
     if(sig == SIGCHLD){
         
         printf("One of the children has finished its job\n");
