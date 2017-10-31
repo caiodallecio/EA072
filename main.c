@@ -86,7 +86,7 @@ int main(int argc, char const *argv[])
         else if(current_process < MAX_PROCESS){
             printf("New Request\n");
             f = fork();
-            if (f>0){
+            if (f==0){
                 printf("New Process #%d\n",current_process);
                 valread = read( new_socket , buffer, 1024);
                 printf("<<<Request>>>\n");
@@ -107,7 +107,7 @@ int main(int argc, char const *argv[])
                 sleep(10);
                 printf("Process #%d End\n",current_process);
                 exit(0);
-            } else if (f == 0){
+            } else if (f>0){
                 current_process++;
                 close(new_socket);
             } else
