@@ -24,6 +24,7 @@ void sigchld_handler(int sig){
     estar "representando" múltiplos filhos e então o sinal SIGCHLD significa que um
     ou mais filhos tiveram seu estado alterado.
     */
+    puts("DEMONIOOOO");
     do{
         pid = wait3(&estado,WNOHANG,NULL);
         printf("%d: Um sinal de mudanca do estado do processo-filho %d foi captado!\n",
